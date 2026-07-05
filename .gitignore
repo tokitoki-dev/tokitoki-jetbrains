@@ -1,0 +1,21 @@
+.DS_Store
+Thumbs.db
+
+# Gradle and Kotlin
+.gradle/
+.kotlin/
+build/
+
+# IntelliJ IDEA
+.idea/
+out/
+*.iml
+*.ipr
+*.iws
+
+# Local environment and logs
+.env
+.env.*
+local.properties
+*.log
+hs_err_pid*
