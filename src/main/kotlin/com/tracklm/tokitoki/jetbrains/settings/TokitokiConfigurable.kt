@@ -18,7 +18,7 @@ import javax.swing.SpinnerNumberModel
 class TokitokiConfigurable : Configurable {
     private val settings = TokitokiSettings.getInstance()
     private var panel: JPanel? = null
-    private val enabled = JBCheckBox("Enable TokiToki integration")
+    private val enabled = JBCheckBox("Enable Tokitoki integration")
     private val autoSync = JBCheckBox("Sync on startup and interval")
     private val syncOnSave = JBCheckBox("Sync after file saves")
     private val syncOnEdit = JBCheckBox("Sync after editor activity")
@@ -29,7 +29,7 @@ class TokitokiConfigurable : Configurable {
     private val providerDirs = JBTextArea(5, 42)
     private val logLevel = ComboBox(arrayOf("debug", "info", "warn", "error"))
 
-    override fun getDisplayName(): String = "TokiToki"
+    override fun getDisplayName(): String = "Tokitoki"
 
     override fun createComponent(): JComponent {
         val root = JPanel(GridBagLayout()).apply { border = JBUI.Borders.empty(12) }

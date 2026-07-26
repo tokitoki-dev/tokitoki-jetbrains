@@ -17,7 +17,7 @@ object TokitokiNotifier {
     private fun notify(project: Project?, message: String, type: NotificationType) {
         if (!TokitokiSettings.getInstance().state.showNotifications) return
         NotificationGroupManager.getInstance()
-            .getNotificationGroup("TokiToki")
+            .getNotificationGroup("Tokitoki")
             .createNotification(message, type)
             .notify(project)
     }

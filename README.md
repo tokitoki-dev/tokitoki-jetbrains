@@ -1,6 +1,6 @@
-# TokiToki JetBrains
+# Tokitoki JetBrains
 
-JetBrains IDE integration for the local TokiToki usage sync agent.
+JetBrains IDE integration for the local Tokitoki usage sync agent.
 
 The plugin shells out to a bundled `tokitoki` CLI built from `tracklm-goagent`.
 It does not upload directly from the IDE process.
@@ -20,9 +20,9 @@ There is no PATH lookup, workspace lookup, or user-configured CLI path fallback.
 
 - Sync on project startup and a configurable interval.
 - Optional throttled sync after editor edits and file saves.
-- `Tools > TokiToki > Sync Now`.
-- `Tools > TokiToki > Set API Key` runs `tokitoki set key <API_KEY>`.
-- `Tools > TokiToki > Show API Key Status` runs `tokitoki get key`.
+- `Tools > Tokitoki > Sync Now`.
+- `Tools > Tokitoki > Set API Key` runs `tokitoki set key <API_KEY>`.
+- `Tools > Tokitoki > Show API Key Status` runs `tokitoki get key`.
 - Background service commands run `tokitoki service ...`.
 - `TOKITOKI_BASE_URL` is passed to the bundled CLI from plugin settings.
 - Repeated `provider=path` settings are passed as `--provider-dir`.
@@ -45,4 +45,4 @@ The plugin ZIP is emitted under `build/distributions/`.
 
 This MVP maps JetBrains editor activity to local CLI sync triggers. It does not
 implement WakaTime-style per-file heartbeat submission because the current
-TokiToki agent owns scanning, deduplication, persistence, and upload behavior.
+Tokitoki agent owns scanning, deduplication, persistence, and upload behavior.

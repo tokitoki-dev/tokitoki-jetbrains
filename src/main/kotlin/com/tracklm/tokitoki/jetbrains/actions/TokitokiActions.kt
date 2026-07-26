@@ -19,16 +19,16 @@ class SyncNowAction : AnAction() {
 class SetApiKeyAction : AnAction() {
     override fun actionPerformed(event: AnActionEvent) {
         val project = event.project
-        val apiKey = Messages.showPasswordDialog(project, "TokiToki API key:", "Set TokiToki API Key", null, null)
+        val apiKey = Messages.showPasswordDialog(project, "Tokitoki API key:", "Set Tokitoki API Key", null, null)
             ?.trim()
             ?: return
         if (apiKey.isEmpty()) {
-            TokitokiNotifier.error(project, "TokiToki API key is required.")
+            TokitokiNotifier.error(project, "Tokitoki API key is required.")
             return
         }
         val service = project?.let { TokitokiProjectService.getInstance(it) }
         if (service != null) {
-            service.runCliCommand("TokiToki API key saved.") { it.setApiKey(apiKey) }
+            service.runCliCommand("Tokitoki API key saved.") { it.setApiKey(apiKey) }
         } else {
             ApplicationManager.getApplication().executeOnPooledThread {
                 TokitokiCli(null).setApiKey(apiKey)
@@ -40,7 +40,7 @@ class SetApiKeyAction : AnAction() {
 class ShowApiKeyStatusAction : AnAction() {
     override fun actionPerformed(event: AnActionEvent) {
         val project = event.project ?: return
-        TokitokiProjectService.getInstance(project).runCliCommand("TokiToki API key is configured.") {
+        TokitokiProjectService.getInstance(project).runCliCommand("Tokitoki API key is configured.") {
             val result = it.getApiKey()
             val masked = maskApiKey(result.stdout)
             CommandResult(masked, result.stderr)
@@ -51,7 +51,7 @@ class ShowApiKeyStatusAction : AnAction() {
 abstract class ServiceAction(private val action: String, private val label: String) : AnAction() {
     override fun actionPerformed(event: AnActionEvent) {
         val project = event.project ?: return
-        TokitokiProjectService.getInstance(project).runCliCommand("TokiToki service $label completed.") {
+        TokitokiProjectService.getInstance(project).runCliCommand("Tokitoki service $label completed.") {
             it.service(action)
         }
     }

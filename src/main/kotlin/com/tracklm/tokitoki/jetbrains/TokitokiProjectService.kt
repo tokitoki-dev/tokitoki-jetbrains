@@ -29,7 +29,7 @@ class TokitokiProjectService(private val project: Project) : Disposable {
     fun start() {
         if (started) return
         started = true
-        log.info("Starting TokiToki integration for ${project.name}")
+        log.info("Starting Tokitoki integration for ${project.name}")
         registerListeners()
         restartTimer()
         val state = TokitokiSettings.getInstance().state
@@ -41,21 +41,21 @@ class TokitokiProjectService(private val project: Project) : Disposable {
     fun sync(reason: String, userInitiated: Boolean) {
         val state = TokitokiSettings.getInstance().state
         if (!state.enabled) {
-            if (userInitiated) TokitokiNotifier.info(project, "TokiToki is disabled.")
+            if (userInitiated) TokitokiNotifier.info(project, "Tokitoki is disabled.")
             return
         }
         if (!running.compareAndSet(false, true)) {
-            if (userInitiated) TokitokiNotifier.info(project, "TokiToki sync is already running.")
+            if (userInitiated) TokitokiNotifier.info(project, "Tokitoki sync is already running.")
             return
         }
         AppExecutorUtil.getAppExecutorService().execute {
             try {
-                log.info("Running TokiToki sync ($reason)")
+                log.info("Running Tokitoki sync ($reason)")
                 val result = TokitokiCli(project).sync()
                 logCommandOutput(result)
-                if (userInitiated) TokitokiNotifier.info(project, "TokiToki sync completed.")
+                if (userInitiated) TokitokiNotifier.info(project, "Tokitoki sync completed.")
             } catch (error: Throwable) {
-                handleError("TokiToki sync failed.", error)
+                handleError("Tokitoki sync failed.", error)
             } finally {
                 running.set(false)
             }

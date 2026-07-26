@@ -82,7 +82,7 @@ tasks {
         changeNotes.set(
             """
             <ul>
-              <li>Initial MVP for syncing JetBrains IDE activity with the local TokiToki CLI.</li>
+              <li>Initial MVP for syncing JetBrains IDE activity with the local Tokitoki CLI.</li>
             </ul>
             """.trimIndent(),
         )

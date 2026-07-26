@@ -30,7 +30,7 @@ class TokitokiCli(private val project: Project?) {
         val executableName = if (platform.startsWith("windows-")) "tokitoki.exe" else "tokitoki"
         val resourcePath = "/cli/$platform/$executableName"
         val resource = javaClass.getResourceAsStream(resourcePath)
-            ?: throw TokitokiCliException("Bundled TokiToki CLI is missing for $platform.", resourcePath)
+            ?: throw TokitokiCliException("Bundled Tokitoki CLI is missing for $platform.", resourcePath)
         val target = Paths.get(PathManager.getSystemPath(), "tokitoki-jetbrains", platform, executableName)
         Files.createDirectories(target.parent)
         resource.use { Files.copy(it, target, StandardCopyOption.REPLACE_EXISTING) }
@@ -38,7 +38,7 @@ class TokitokiCli(private val project: Project?) {
             target.toFile().setExecutable(true, true)
         }
         if (!PathUtil.isExecutableFile(target)) {
-            throw TokitokiCliException("Bundled TokiToki CLI is not executable after extraction: $target", target.toString())
+            throw TokitokiCliException("Bundled Tokitoki CLI is not executable after extraction: $target", target.toString())
         }
         return target
     }
@@ -100,12 +100,12 @@ class TokitokiCli(private val project: Project?) {
             os.contains("mac") || os.contains("darwin") -> "darwin"
             os.contains("win") -> "windows"
             os.contains("linux") -> "linux"
-            else -> throw TokitokiCliException("Unsupported OS for bundled TokiToki CLI: $os", "bundled-cli")
+            else -> throw TokitokiCliException("Unsupported OS for bundled Tokitoki CLI: $os", "bundled-cli")
         }
         val archPart = when (arch) {
             "x86_64", "amd64" -> "amd64"
             "aarch64", "arm64" -> "arm64"
-            else -> throw TokitokiCliException("Unsupported architecture for bundled TokiToki CLI: $arch", "bundled-cli")
+            else -> throw TokitokiCliException("Unsupported architecture for bundled Tokitoki CLI: $arch", "bundled-cli")
         }
         return "$osPart-$archPart"
     }

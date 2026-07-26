@@ -1,10 +1,10 @@
 <idea-plugin>
     <id>com.tracklm.tokitoki.jetbrains</id>
-    <name>TokiToki</name>
+    <name>Tokitoki</name>
     <vendor email="support@tracklm.local" url="https://github.com/labx/tokitoki-agent">TrackLM</vendor>
 
     <description><![CDATA[
-      JetBrains IDE integration for the local TokiToki usage sync agent.
+      JetBrains IDE integration for the local Tokitoki usage sync agent.
       The plugin shells out to the local <code>tokitoki</code> CLI to sync local AI coding usage.
     ]]></description>
 
@@ -17,25 +17,25 @@
         <applicationConfigurable
             instance="com.tracklm.tokitoki.jetbrains.settings.TokitokiConfigurable"
             id="tokitoki.settings"
-            displayName="TokiToki"/>
-        <notificationGroup id="TokiToki" displayType="BALLOON"/>
+            displayName="Tokitoki"/>
+        <notificationGroup id="Tokitoki" displayType="BALLOON"/>
     </extensions>
 
     <actions>
-        <group id="Tokitoki.Menu" text="TokiToki" popup="true">
+        <group id="Tokitoki.Menu" text="Tokitoki" popup="true">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
             <action id="Tokitoki.SyncNow"
                     class="com.tracklm.tokitoki.jetbrains.actions.SyncNowAction"
                     text="Sync Now"
-                    description="Run the local TokiToki CLI once"/>
+                    description="Run the local Tokitoki CLI once"/>
             <action id="Tokitoki.SetApiKey"
                     class="com.tracklm.tokitoki.jetbrains.actions.SetApiKeyAction"
                     text="Set API Key"
-                    description="Save the TokiToki API key through the local CLI"/>
+                    description="Save the Tokitoki API key through the local CLI"/>
             <action id="Tokitoki.ShowApiKeyStatus"
                     class="com.tracklm.tokitoki.jetbrains.actions.ShowApiKeyStatusAction"
                     text="Show API Key Status"
-                    description="Read the configured TokiToki API key status"/>
+                    description="Read the configured Tokitoki API key status"/>
             <separator/>
             <action id="Tokitoki.ServiceInstall"
                     class="com.tracklm.tokitoki.jetbrains.actions.ServiceInstallAction"
