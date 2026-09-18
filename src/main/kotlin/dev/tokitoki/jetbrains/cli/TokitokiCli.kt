@@ -60,6 +60,20 @@ class TodayProject(
     val text: String = "",
 )
 
+/** The JSON of `tokitoki stats` (tokitoki-cli internal/usagestats): local
+ * aggregates, no key and no network, so a fresh install has numbers. */
+class StatsReport(
+    val days: Int = 0,
+    val totals: StatsTotals = StatsTotals(),
+    /** Dense: one entry per day of the window, zero-filled, oldest first. */
+    val daily: List<StatsDaily> = emptyList(),
+    val project: StatsReport? = null,
+)
+
+class StatsTotals(val events: Long = 0, val total_tokens: Long = 0, val active_seconds: Long = 0)
+
+class StatsDaily(val date: String = "", val events: Long = 0, val total_tokens: Long = 0, val active_seconds: Long = 0)
+
 /**
  * The shared CLI every Tokitoki client on this machine invokes, and the
  * bundled copy that seeds it. Stateless: every call resolves the binary
@@ -195,6 +209,13 @@ class TokitokiCli {
         val args = mutableListOf("today")
         if (!project.isNullOrBlank()) args += listOf("--project", project)
         return parse(run(args).stdout, TodayReport::class.java, "today")
+    }
+
+    /** Local usage aggregates; `project` nests a report narrowed to it. */
+    fun stats(days: Int, project: String?): StatsReport {
+        val args = mutableListOf("stats", "--days", days.toString())
+        if (!project.isNullOrBlank()) args += listOf("--project", project)
+        return parse(run(args).stdout, StatsReport::class.java, "stats")
     }
 
     private class VerifyResponse(val valid: Boolean = false)

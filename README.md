@@ -18,6 +18,9 @@ DataGrip, Android Studio.
 - **Today in the status bar.** Active time for the project you have open,
   from the same figure the dashboard shows, on every machine with the same
   key. Click it to open the dashboard, signed in.
+- **A Tokitoki tool window** with today and the week at a glance, and the
+  way to the dashboard for everything else. It works before a key is set,
+  from local data.
 - **Works offline.** Activity is queued locally and uploaded when you are
   back online.
 - **Open source.** The plugin, the CLI it bundles, and the other clients are

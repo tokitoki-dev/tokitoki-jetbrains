@@ -14,4 +14,6 @@
   typed, kept apart from what agents and completions wrote.
 - Tools > Tokitoki: Open Dashboard, Set API Key, Show API Key Status, Set
   Project Name, Sync AI Usage Now.
+- A Tokitoki tool window with today and the week at a glance, key setup
+  for a new install, and the way to the dashboard.
 - Bundled CLI v0.1.9.

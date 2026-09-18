@@ -23,6 +23,7 @@ IDE events -> ActivityTracker (50ms debounce, 2 min throttle per file)
 | `tracking/LineChanges`, `Language`, `HeartbeatThrottler` | Pure rules, unit-tested |
 | `cli/TokitokiCli` | Shared CLI resolution, seeding, and every command the plugin runs |
 | `statusbar/` | Today's time in the status bar |
+| `toolwindow/` | The Tokitoki tool window: pitch, key setup, today and the week from `tokitoki stats`, dashboard link |
 | `settings/` | Two switches, Kotlin UI DSL |
 | `project/ProjectFile` | The `.tokitoki` project identity file |
 

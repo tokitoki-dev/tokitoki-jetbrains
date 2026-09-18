@@ -76,6 +76,12 @@ class TokitokiService : Disposable {
     @Volatile
     private var todayFetchedAt = 0L
 
+    /** The first scan has finished, so an empty report now means "nothing to
+     * show" rather than "not looked yet". */
+    @Volatile
+    var scanned = false
+        private set
+
     fun start() {
         if (!started.compareAndSet(false, true)) return
         log.info("Tokitoki ${BuildConfig.PLUGIN_VERSION} starting: server ${BuildConfig.BASE_URL}, data dir ~/${BuildConfig.DATA_DIR}")
@@ -119,7 +125,12 @@ class TokitokiService : Disposable {
                 log.warn("Tokitoki sync failed: ${error.message}")
                 if (userInitiated) notify(project, TokitokiBundle.message("notify.sync.failed"), NotificationType.WARNING)
             } finally {
+                // Whether the scan succeeded or failed, it is no longer
+                // pending — a failed scan must not leave the panel claiming
+                // it is still looking.
+                scanned = true
                 syncRunning.set(false)
+                publishStatus()
             }
         }
     }
@@ -385,6 +396,14 @@ class TokitokiService : Disposable {
             val trimmed = apiKey.trim()
             if (trimmed.length <= 8) return "configured"
             return "${trimmed.take(4)}...${trimmed.takeLast(4)}"
+        }
+
+        /** "3h 36m" / "45m" / "0m" — the dashboard's spelling. */
+        fun formatDuration(seconds: Long): String {
+            val minutes = Math.round(seconds / 60.0)
+            val h = minutes / 60
+            val m = minutes % 60
+            return if (h == 0L) "${m}m" else "${h}h ${m}m"
         }
 
         /** "1.2M" / "812.0K" / "947" — the spelling the VS Code extension uses,

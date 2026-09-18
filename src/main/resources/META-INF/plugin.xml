@@ -40,6 +40,10 @@
             key="settings.title"
             bundle="messages.TokitokiBundle"/>
         <notificationGroup id="Tokitoki" displayType="BALLOON" key="notification.group"/>
+        <toolWindow id="Tokitoki"
+                    anchor="right"
+                    icon="/icons/toolwindow.svg"
+                    factoryClass="dev.tokitoki.jetbrains.toolwindow.TokitokiToolWindowFactory"/>
     </extensions>
 
     <!-- Declared here rather than subscribed in code: the platform creates
