@@ -67,8 +67,14 @@ class StatsReport(
     val totals: StatsTotals = StatsTotals(),
     /** Dense: one entry per day of the window, zero-filled, oldest first. */
     val daily: List<StatsDaily> = emptyList(),
+    val projects: List<StatsGroup> = emptyList(),
+    val models: List<StatsGroup> = emptyList(),
+    /** Present when requested with a project scope: the same shape narrowed
+     * to that project, from the same invocation. */
     val project: StatsReport? = null,
 )
+
+class StatsGroup(val name: String = "", val events: Long = 0, val total_tokens: Long = 0, val active_seconds: Long = 0)
 
 class StatsTotals(val events: Long = 0, val total_tokens: Long = 0, val active_seconds: Long = 0)
 
