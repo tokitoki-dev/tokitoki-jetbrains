@@ -1,57 +1,80 @@
 <idea-plugin>
-    <id>com.tracklm.tokitoki.jetbrains</id>
+    <id>dev.tokitoki.jetbrains</id>
     <name>Tokitoki</name>
-    <vendor email="support@tracklm.local" url="https://github.com/labx/tokitoki-agent">TrackLM</vendor>
+    <vendor email="support@tokitoki.dev" url="https://tokitoki.dev">Tokitoki</vendor>
+    <resource-bundle>messages.TokitokiBundle</resource-bundle>
 
     <description><![CDATA[
-      JetBrains IDE integration for the local Tokitoki usage sync agent.
-      The plugin shells out to the local <code>tokitoki</code> CLI to sync local AI coding usage.
+      Automatic coding time tracking plus AI usage analytics for Claude Code, Codex, Copilot,
+      and more, on your <a href="https://tokitoki.dev">Tokitoki</a> dashboard.
+      <br><br>
+      <b>Automatic time tracking.</b> Just code. Tokitoki records which files, projects and
+      languages you work in, including debugging and code review time. No timers to start,
+      no forms to fill.
+      <br><br>
+      <b>AI usage analytics.</b> Your local AI coding agents (Claude Code, Codex, Copilot CLI,
+      Gemini, Amp, Goose, OpenCode and more) are scanned and synced automatically, so tokens,
+      models and costs show up next to your coding time.
+      <br><br>
+      <b>Today in the status bar.</b> Active time for the project you have open, from the same
+      figure the dashboard shows, on every machine with the same key.
+      <br><br>
+      <b>Works offline.</b> Activity is queued locally and uploaded when you are back online.
+      <br><br>
+      Only metadata leaves your machine: paths, project names, timestamps, token counts.
+      Never your code. Open source, Apache-2.0.
     ]]></description>
 
     <depends>com.intellij.modules.platform</depends>
 
     <extensions defaultExtensionNs="com.intellij">
-        <postStartupActivity implementation="com.tracklm.tokitoki.jetbrains.TokitokiStartupActivity"/>
-        <projectService serviceImplementation="com.tracklm.tokitoki.jetbrains.TokitokiProjectService"/>
-        <applicationService serviceImplementation="com.tracklm.tokitoki.jetbrains.settings.TokitokiSettings"/>
+        <postStartupActivity implementation="dev.tokitoki.jetbrains.TokitokiStartup"/>
+        <statusBarWidgetFactory
+            id="tokitoki.today"
+            implementation="dev.tokitoki.jetbrains.statusbar.TokitokiStatusBarWidgetFactory"
+            order="first"/>
         <applicationConfigurable
-            instance="com.tracklm.tokitoki.jetbrains.settings.TokitokiConfigurable"
-            id="tokitoki.settings"
-            displayName="Tokitoki"/>
-        <notificationGroup id="Tokitoki" displayType="BALLOON"/>
+            parentId="tools"
+            instance="dev.tokitoki.jetbrains.settings.TokitokiConfigurable"
+            id="dev.tokitoki.jetbrains.settings"
+            key="settings.title"
+            bundle="messages.TokitokiBundle"/>
+        <notificationGroup id="Tokitoki" displayType="BALLOON" key="notification.group"/>
+        <toolWindow id="Tokitoki"
+                    anchor="right"
+                    icon="/icons/toolwindow.svg"
+                    factoryClass="dev.tokitoki.jetbrains.toolwindow.TokitokiToolWindowFactory"/>
     </extensions>
 
+    <!-- Declared here rather than subscribed in code: the platform creates
+         each listener on its first event, so an idle IDE pays nothing. -->
+    <applicationListeners>
+        <listener class="dev.tokitoki.jetbrains.tracking.WindowActivationListener"
+                  topic="com.intellij.openapi.application.ApplicationActivationListener"/>
+        <listener class="dev.tokitoki.jetbrains.tracking.SaveListener"
+                  topic="com.intellij.openapi.fileEditor.FileDocumentManagerListener"/>
+        <listener class="dev.tokitoki.jetbrains.tracking.FileOperationsListener"
+                  topic="com.intellij.openapi.vfs.newvfs.BulkFileListener"/>
+    </applicationListeners>
+
+    <projectListeners>
+        <listener class="dev.tokitoki.jetbrains.tracking.EditorSelectionListener"
+                  topic="com.intellij.openapi.fileEditor.FileEditorManagerListener"/>
+        <listener class="dev.tokitoki.jetbrains.tracking.RunListener"
+                  topic="com.intellij.execution.ExecutionListener"/>
+        <listener class="dev.tokitoki.jetbrains.tracking.ToolWindowListener"
+                  topic="com.intellij.openapi.wm.ex.ToolWindowManagerListener"/>
+    </projectListeners>
+
     <actions>
-        <group id="Tokitoki.Menu" text="Tokitoki" popup="true">
+        <group id="Tokitoki.Menu" popup="true" icon="/icons/tokitoki.svg">
             <add-to-group group-id="ToolsMenu" anchor="last"/>
-            <action id="Tokitoki.SyncNow"
-                    class="com.tracklm.tokitoki.jetbrains.actions.SyncNowAction"
-                    text="Sync Now"
-                    description="Run the local Tokitoki CLI once"/>
-            <action id="Tokitoki.SetApiKey"
-                    class="com.tracklm.tokitoki.jetbrains.actions.SetApiKeyAction"
-                    text="Set API Key"
-                    description="Save the Tokitoki API key through the local CLI"/>
-            <action id="Tokitoki.ShowApiKeyStatus"
-                    class="com.tracklm.tokitoki.jetbrains.actions.ShowApiKeyStatusAction"
-                    text="Show API Key Status"
-                    description="Read the configured Tokitoki API key status"/>
+            <action id="Tokitoki.OpenDashboard" class="dev.tokitoki.jetbrains.actions.OpenDashboardAction"/>
+            <action id="Tokitoki.SetApiKey" class="dev.tokitoki.jetbrains.actions.SetApiKeyAction"/>
+            <action id="Tokitoki.ShowApiKeyStatus" class="dev.tokitoki.jetbrains.actions.ShowApiKeyStatusAction"/>
+            <action id="Tokitoki.SetProjectName" class="dev.tokitoki.jetbrains.actions.SetProjectNameAction"/>
             <separator/>
-            <action id="Tokitoki.ServiceInstall"
-                    class="com.tracklm.tokitoki.jetbrains.actions.ServiceInstallAction"
-                    text="Install Background Service"/>
-            <action id="Tokitoki.ServiceStart"
-                    class="com.tracklm.tokitoki.jetbrains.actions.ServiceStartAction"
-                    text="Start Background Service"/>
-            <action id="Tokitoki.ServiceStop"
-                    class="com.tracklm.tokitoki.jetbrains.actions.ServiceStopAction"
-                    text="Stop Background Service"/>
-            <action id="Tokitoki.ServiceRestart"
-                    class="com.tracklm.tokitoki.jetbrains.actions.ServiceRestartAction"
-                    text="Restart Background Service"/>
-            <action id="Tokitoki.ServiceStatus"
-                    class="com.tracklm.tokitoki.jetbrains.actions.ServiceStatusAction"
-                    text="Show Background Service Status"/>
+            <action id="Tokitoki.SyncNow" class="dev.tokitoki.jetbrains.actions.SyncNowAction"/>
         </group>
     </actions>
 </idea-plugin>

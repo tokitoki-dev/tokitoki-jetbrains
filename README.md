@@ -1,48 +1,49 @@
-# Tokitoki JetBrains
+# Tokitoki for JetBrains IDEs
 
-JetBrains IDE integration for the local Tokitoki usage sync agent.
+Coding time from your IDE and the token usage of AI coding agents, per
+project, at [tokitoki.dev](https://tokitoki.dev). Works in IntelliJ IDEA,
+PyCharm, WebStorm, GoLand, Rider, CLion, RubyMine, PhpStorm, DataGrip and
+Android Studio, 2024.2 or newer.
 
-The plugin shells out to a bundled `tokitoki` CLI built from `tracklm-goagent`.
-It does not upload directly from the IDE process.
+![Tokitoki dashboard](images/dashboard-activity.png)
 
-## CLI Packaging
+## What it does
 
-The plugin uses one fixed CLI resolution strategy:
+- Records which files, projects and languages you work in, and for how long.
+  Debugging and reviewing a diff are recorded as such.
+- Reads the local logs that Claude Code, Codex, GitHub Copilot, Gemini CLI
+  and [other tools](https://github.com/tokitoki-dev/tokitoki-cli#supported-tools)
+  already write, and syncs them every five minutes.
+- Shows today's time for the open project in the status bar, and the week
+  in a Tokitoki tool window.
+- Queues everything locally and uploads when you are online.
 
-1. Gradle runs `make cross` in `../tracklm-goagent`.
-2. The platform binaries are copied into plugin resources under `cli/<os>-<arch>/`.
-3. At runtime the plugin selects the current OS/arch resource, extracts it to
-   the JetBrains system directory, marks it executable, and runs that file.
+Only metadata leaves your machine: paths, project names, timestamps, token
+counts. Never your code. Apache-2.0.
 
-There is no PATH lookup, workspace lookup, or user-configured CLI path fallback.
+## Setup
 
-## Features
+1. Install the plugin from the JetBrains Marketplace.
+2. Tools > Tokitoki > Set API Key, and paste the key from
+   [tokitoki.dev](https://tokitoki.dev). The plugin also asks on first use.
 
-- Sync on project startup and a configurable interval.
-- Optional throttled sync after editor edits and file saves.
-- `Tools > Tokitoki > Sync Now`.
-- `Tools > Tokitoki > Set API Key` runs `tokitoki set key <API_KEY>`.
-- `Tools > Tokitoki > Show API Key Status` runs `tokitoki get key`.
-- Background service commands run `tokitoki service ...`.
-- `TOKITOKI_BASE_URL` is passed to the bundled CLI from plugin settings.
-- Repeated `provider=path` settings are passed as `--provider-dir`.
+## Tools > Tokitoki
 
-## Build
+| | |
+| --- | --- |
+| Open Dashboard | The web dashboard, signed in |
+| Set API Key | One key for every Tokitoki client on this machine |
+| Show API Key Status | The configured key, masked, checked against the server |
+| Set Project Name | Pins the name this project reports, in its `.tokitoki` file |
+| Sync AI Usage Now | Scans your AI tools and uploads right away |
 
-Build and package the JetBrains plugin:
+Settings > Tools > Tokitoki turns the status bar item and its figure on or
+off. Nothing else needs configuring.
 
-```sh
-cd ../tokitoki-jetbrains
-./gradlew test buildPlugin
-```
+## Links
 
-`buildPlugin` automatically runs `make cross` in `../tracklm-goagent` before
-packaging resources.
-
-The plugin ZIP is emitted under `build/distributions/`.
-
-## Notes
-
-This MVP maps JetBrains editor activity to local CLI sync triggers. It does not
-implement WakaTime-style per-file heartbeat submission because the current
-Tokitoki agent owns scanning, deduplication, persistence, and upload behavior.
+[Dashboard](https://tokitoki.dev) ·
+[Issues](https://github.com/tokitoki-dev/tokitoki-jetbrains/issues) ·
+[Development](DEVELOPMENT.md) ·
+[Releasing](RELEASING.md) ·
+[Other clients](https://github.com/tokitoki-dev)

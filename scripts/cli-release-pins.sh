@@ -1,0 +1,12 @@
+# The tokitoki-cli release bundled into a release build of the plugin. The
+# pin and all digests are reviewed together. Environment overrides are
+# intentionally not accepted: changing the CLI bundled by a plugin release
+# must be a visible repository change that goes through the protected main
+# branch.
+TOKITOKI_CLI_TAG="v0.1.9"
+TOKITOKI_CLI_DARWIN_AMD64_SHA256="d4d6dd76743df5f9ff0bdf4b570a619b2e8970301998a5640dd6c75ae10155b3"
+TOKITOKI_CLI_DARWIN_ARM64_SHA256="f073531b39492b6e373c1d5b386a4306c4edaa7f385c4f6deb2fdf3ef35ac21a"
+TOKITOKI_CLI_LINUX_AMD64_SHA256="16b067d50c3b8730852b4d1379ff61c2c4f2c01e9b45556c2a277c4bca8e895f"
+TOKITOKI_CLI_LINUX_ARM64_SHA256="3b38438fca5f3a2f5b3467022aa1146c6fdacff67bc598a4d42e1b54bc673d9c"
+TOKITOKI_CLI_WINDOWS_AMD64_SHA256="f180ca79f0390a9675acbb9ecbd7a2e8dafd6b19e9f3921a9fd354083c6d9820"
+TOKITOKI_CLI_WINDOWS_ARM64_SHA256="655784938505d7ebd4e0378f0dae6b16e0a3035589a4d748be493972f9f56ef4"
