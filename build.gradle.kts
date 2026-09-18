@@ -1,4 +1,5 @@
 import org.jetbrains.intellij.platform.gradle.IntelliJPlatformType
+import org.jetbrains.kotlin.gradle.dsl.KotlinVersion
 
 plugins {
     id("org.jetbrains.kotlin.jvm") version "2.1.21"
@@ -10,6 +11,12 @@ version = providers.gradleProperty("pluginVersion").get()
 
 kotlin {
     jvmToolchain(21)
+    // The plugin runs on the stdlib the IDE bundles (Kotlin 2.0 in 2024.2),
+    // not one of its own, so it must not use anything newer.
+    compilerOptions {
+        apiVersion.set(KotlinVersion.KOTLIN_2_0)
+        languageVersion.set(KotlinVersion.KOTLIN_2_0)
+    }
 }
 
 repositories {
@@ -129,6 +136,10 @@ fun latestChangelogSection(): String {
 }
 
 intellijPlatform {
+    // Two checkboxes do not need a searchable-options index, and building
+    // one starts a headless IDE in the sandbox, which fails whenever a
+    // runIde session holds it.
+    buildSearchableOptions = false
     pluginConfiguration {
         version = project.version.toString()
         changeNotes = provider { latestChangelogSection() }

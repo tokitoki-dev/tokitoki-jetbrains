@@ -34,7 +34,7 @@ jobs:
       - name: Verify the plugin bundles all six CLI binaries
         run: |
           unzip -oq build/distributions/*.zip -d build/unpacked
-          jar=$(ls build/unpacked/tokitoki-jetbrains/lib/tokitoki-jetbrains-*.jar | grep -v searchableOptions)
+          jar=$(ls build/unpacked/tokitoki-jetbrains/lib/tokitoki-jetbrains-*.jar)
           for p in darwin-amd64 darwin-arm64 linux-amd64 linux-arm64 windows-amd64 windows-arm64; do
             unzip -l "$jar" | grep -q "cli/$p/tokitoki" || { echo "missing CLI for $p" >&2; exit 1; }
           done

@@ -1,11 +1,11 @@
 # Changelog
 
-## 0.1.0
+## 0.0.1
 
-- First release of Tokitoki for JetBrains IDEs, at feature parity with the
-  VS Code extension: automatic coding time tracking through the shared
-  `tokitoki` CLI, AI usage sync every five minutes, and today's active time
-  for the open project in the status bar.
+- First release. Automatic coding time tracking through the shared
+  `tokitoki` CLI, AI usage sync every five minutes, today's active time for
+  the open project in the status bar, and a Tokitoki tool window with the
+  week at a glance.
 - Activity counts typing, caret moves, scrolling, clicking, tab switches,
   window focus, tool windows, run and debug sessions, saves, and file
   operations. Debug sessions are recorded as **debugging**, a selected diff
@@ -14,6 +14,4 @@
   typed, kept apart from what agents and completions wrote.
 - Tools > Tokitoki: Open Dashboard, Set API Key, Show API Key Status, Set
   Project Name, Sync AI Usage Now.
-- A Tokitoki tool window with today and the week at a glance, key setup
-  for a new install, and the way to the dashboard.
 - Bundled CLI v0.1.9.

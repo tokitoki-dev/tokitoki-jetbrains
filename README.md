@@ -1,74 +1,49 @@
 # Tokitoki for JetBrains IDEs
 
-Automatic coding time tracking plus AI usage analytics for Claude Code,
-Codex, Copilot, and more, on your dashboard at
-[tokitoki.dev](https://tokitoki.dev). Works in every JetBrains IDE:
-IntelliJ IDEA, PyCharm, WebStorm, GoLand, Rider, CLion, RubyMine, PhpStorm,
-DataGrip, Android Studio.
+Coding time from your IDE and the token usage of AI coding agents, per
+project, at [tokitoki.dev](https://tokitoki.dev). Works in IntelliJ IDEA,
+PyCharm, WebStorm, GoLand, Rider, CLion, RubyMine, PhpStorm, DataGrip and
+Android Studio, 2024.2 or newer.
 
-## Features
+![Tokitoki dashboard](images/dashboard-activity.png)
 
-- **Automatic time tracking.** Just code. Tokitoki records which files,
-  projects and languages you work in, including debugging and code review
-  time. No timers to start, no forms to fill.
-- **AI usage analytics.** Your local AI coding agents (Claude Code, Codex,
-  Copilot CLI, Gemini, Amp, Goose, OpenCode and more) are scanned and synced
-  automatically, so tokens, models and costs show up next to your coding
-  time.
-- **Today in the status bar.** Active time for the project you have open,
-  from the same figure the dashboard shows, on every machine with the same
-  key. Click it to open the dashboard, signed in.
-- **A Tokitoki tool window** with today and the week at a glance, and the
-  way to the dashboard for everything else. It works before a key is set,
-  from local data.
-- **Works offline.** Activity is queued locally and uploaded when you are
-  back online.
-- **Open source.** The plugin, the CLI it bundles, and the other clients are
-  Apache-2.0 at [github.com/tokitoki-dev](https://github.com/tokitoki-dev).
+## What it does
 
-## Quick start
+- Records which files, projects and languages you work in, and for how long.
+  Debugging and reviewing a diff are recorded as such.
+- Reads the local logs that Claude Code, Codex, GitHub Copilot, Gemini CLI
+  and [other tools](https://github.com/tokitoki-dev/tokitoki-cli#supported-tools)
+  already write, and syncs them every five minutes.
+- Shows today's time for the open project in the status bar, and the week
+  in a Tokitoki tool window.
+- Queues everything locally and uploads when you are online.
+
+Only metadata leaves your machine: paths, project names, timestamps, token
+counts. Never your code. Apache-2.0.
+
+## Setup
 
 1. Install the plugin from the JetBrains Marketplace.
-2. Run **Tools > Tokitoki > Set API Key** and paste the key from
+2. Tools > Tokitoki > Set API Key, and paste the key from
    [tokitoki.dev](https://tokitoki.dev). The plugin also asks on first use.
-3. That's it. The status bar shows today's time; click it for the dashboard.
 
-## Menu
+## Tools > Tokitoki
 
-Tools > Tokitoki:
-
-| Action | What it does |
+| | |
 | --- | --- |
-| Open Dashboard | Opens your web dashboard, signed in |
-| Set API Key | Stores your API key for every Tokitoki client on this machine |
-| Show API Key Status | Shows the configured key, masked, and checks it against the server |
+| Open Dashboard | The web dashboard, signed in |
+| Set API Key | One key for every Tokitoki client on this machine |
+| Show API Key Status | The configured key, masked, checked against the server |
 | Set Project Name | Pins the name this project reports, in its `.tokitoki` file |
-| Sync AI Usage Now | Scans your AI coding agents and uploads their usage right away |
+| Sync AI Usage Now | Scans your AI tools and uploads right away |
 
-## Settings
-
-Settings > Tools > Tokitoki has two switches: show the status bar item, and
-show today's time in it (off keeps the icon and moves the figure to the
-tooltip). Tracking and uploading need no configuration.
-
-To pin a stable project name across machines and editors, run **Set Project
-Name**. It writes the first line of a `.tokitoki` file in the project root;
-an optional second line overrides the branch. Editing the file by hand works
-just as well, and the next heartbeat picks it up.
-
-## Privacy
-
-Tokitoki records activity metadata only: file paths, project and branch
-names, language, timestamps, cursor position, and the number of lines you
-typed. **Never your code.** AI usage sync reads token counts and model names
-from your local agent data. Everything is queued in `~/.tokitoki` and
-uploaded over HTTPS with your API key; delete your data anytime from the
-dashboard.
+Settings > Tools > Tokitoki turns the status bar item and its figure on or
+off. Nothing else needs configuring.
 
 ## Links
 
-- [Dashboard](https://tokitoki.dev)
-- [Source & issues](https://github.com/tokitoki-dev/tokitoki-jetbrains)
-- [Development](DEVELOPMENT.md) · [Releasing](RELEASING.md)
-- [All Tokitoki clients](https://github.com/tokitoki-dev): VS Code, macOS,
-  Windows, CLI
+[Dashboard](https://tokitoki.dev) ·
+[Issues](https://github.com/tokitoki-dev/tokitoki-jetbrains/issues) ·
+[Development](DEVELOPMENT.md) ·
+[Releasing](RELEASING.md) ·
+[Other clients](https://github.com/tokitoki-dev)
