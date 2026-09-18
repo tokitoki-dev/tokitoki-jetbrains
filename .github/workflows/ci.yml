@@ -1,0 +1,48 @@
+name: CI
+
+# A plain push to dev triggers nothing. Pull requests into main, and main
+# itself, build a release-configured plugin with the pinned CLI, run the unit
+# tests, and check compatibility against the recommended IDE range.
+on:
+  pull_request:
+    branches: [main]
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-java@v4
+        with:
+          distribution: temurin
+          java-version: 21
+
+      - uses: gradle/actions/setup-gradle@v4
+
+      - name: Build info
+        run: ./gradlew buildInfo -PtokitokiRelease=true --console=plain -q
+
+      - name: Test and build
+        run: ./gradlew test buildPlugin -PtokitokiRelease=true --console=plain
+
+      - name: Verify the plugin bundles all six CLI binaries
+        run: |
+          unzip -oq build/distributions/*.zip -d build/unpacked
+          jar=$(ls build/unpacked/tokitoki-jetbrains/lib/tokitoki-jetbrains-*.jar | grep -v searchableOptions)
+          for p in darwin-amd64 darwin-arm64 linux-amd64 linux-arm64 windows-amd64 windows-arm64; do
+            unzip -l "$jar" | grep -q "cli/$p/tokitoki" || { echo "missing CLI for $p" >&2; exit 1; }
+          done
+
+      - name: Plugin compatibility
+        run: ./gradlew verifyPlugin -PtokitokiRelease=true --console=plain
+
+      - uses: actions/upload-artifact@v4
+        with:
+          name: plugin
+          path: build/distributions/*.zip

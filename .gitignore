@@ -19,3 +19,6 @@ out/
 local.properties
 *.log
 hs_err_pid*
+
+# IntelliJ Platform Gradle Plugin cache
+.intellijPlatform/
