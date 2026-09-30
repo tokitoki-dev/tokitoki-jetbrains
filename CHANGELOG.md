@@ -1,5 +1,12 @@
 # Changelog
 
+## 0.0.2
+
+- Listed on the Marketplace as **Tokitoki Coding Time Tracker**, with a
+  description that says what it tracks.
+- Bundled CLI v0.1.10: a rotating run log, crash reports, error forwarding,
+  and a stable machine label for uploads.
+
 ## 0.0.1
 
 - First release. Automatic coding time tracking through the shared
