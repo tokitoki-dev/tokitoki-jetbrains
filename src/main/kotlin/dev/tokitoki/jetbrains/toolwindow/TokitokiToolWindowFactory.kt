@@ -12,7 +12,6 @@ import com.intellij.openapi.ui.ComboBox
 import com.intellij.openapi.util.Disposer
 import com.intellij.openapi.wm.ToolWindow
 import com.intellij.openapi.wm.ToolWindowFactory
-import com.intellij.ui.SimpleListCellRenderer
 import com.intellij.ui.components.JBLabel
 import com.intellij.ui.components.JBPanel
 import com.intellij.ui.components.JBScrollPane
@@ -74,7 +73,11 @@ class TokitokiToolWindowFactory : ToolWindowFactory, DumbAware {
 }
 
 /** A selector entry. `name` is [ALL] for every project. */
-private data class Choice(val name: String, val label: String)
+private data class Choice(val name: String, val label: String) {
+    // The combo box's default renderer shows toString(), so the label needs
+    // no renderer of its own.
+    override fun toString() = label
+}
 
 private class State(
     val report: StatsReport?,
@@ -169,7 +172,6 @@ class TokitokiPanel(private val project: Project) : StatusListener, Disposable {
         }
         val current = active ?: ALL
         return ComboBox(choices.toTypedArray()).apply {
-            renderer = SimpleListCellRenderer.create("") { it.label }
             selectedItem = choices.firstOrNull { it.name == current } ?: choices.first()
             addActionListener {
                 val pick = selectedItem as? Choice ?: return@addActionListener

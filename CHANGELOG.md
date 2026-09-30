@@ -1,5 +1,11 @@
 # Changelog
 
+## 0.0.3
+
+- Compatible with IntelliJ IDEA 2026.2 and 2026.3 without warnings: the
+  project selector and the message bundle no longer use platform APIs that
+  are deprecated or scheduled for removal.
+
 ## 0.0.2
 
 - Listed on the Marketplace as **Tokitoki Coding Time Tracker**, with a
