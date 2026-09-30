@@ -1,12 +1,13 @@
 <idea-plugin>
     <id>dev.tokitoki.jetbrains</id>
-    <name>Tokitoki</name>
+    <name>Tokitoki Coding Time Tracker</name>
     <vendor email="support@tokitoki.dev" url="https://tokitoki.dev">Tokitoki</vendor>
     <resource-bundle>messages.TokitokiBundle</resource-bundle>
 
     <description><![CDATA[
-      Automatic coding time tracking plus AI usage analytics for Claude Code, Codex, Copilot,
-      and more, on your <a href="https://tokitoki.dev">Tokitoki</a> dashboard.
+      Automatic coding time tracking and AI usage &amp; token cost tracking for Claude Code, Codex,
+      Copilot, Cursor and more, on one <a href="https://tokitoki.dev">Tokitoki</a> dashboard.
+      An open-source WakaTime alternative.
       <br><br>
       <b>Automatic time tracking.</b> Just code. Tokitoki records which files, projects and
       languages you work in, including debugging and code review time. No timers to start,
