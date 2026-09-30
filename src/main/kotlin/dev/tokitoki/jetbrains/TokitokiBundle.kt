@@ -7,7 +7,7 @@ import org.jetbrains.annotations.PropertyKey
 private const val BUNDLE = "messages.TokitokiBundle"
 
 /** Every user-visible string. The IDE's language pack picks the locale. */
-object TokitokiBundle : DynamicBundle(BUNDLE) {
+object TokitokiBundle : DynamicBundle(TokitokiBundle::class.java, BUNDLE) {
     @Nls
     fun message(@PropertyKey(resourceBundle = BUNDLE) key: String, vararg params: Any): String =
         getMessage(key, *params)
