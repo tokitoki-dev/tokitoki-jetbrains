@@ -166,7 +166,7 @@ class ActivityTracker(
             Heartbeat(
                 entity = target.entity,
                 timeSeconds = now / 1000.0,
-                project = null,
+                alternateProject = null,
                 projectFolder = null,
                 language = Language.name(target.fileTypeName),
                 category = category,

@@ -18,7 +18,7 @@ object ProjectFile {
 
     /** The pinned project name, or "" when the file is absent, unreadable, or
      * its first line is blank. All three mean the same thing to the CLI: no
-     * override, fall back to the folder name. */
+     * override, it names the project itself (`tokitoki project` says how). */
     fun readProjectName(folder: Path): String = firstLine(read(folder))
 
     /** Rewrites line 1 in place, creating the file when it does not exist. */

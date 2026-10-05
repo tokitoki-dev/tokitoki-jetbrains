@@ -139,7 +139,7 @@ class TokitokiService : Disposable {
         heartbeats.execute {
             try {
                 val complete = heartbeat.copy(
-                    project = ProjectNames.of(project),
+                    alternateProject = ProjectNames.hint(project),
                     projectFolder = ProjectNames.folder(project)?.toString(),
                 )
                 TokitokiCli().heartbeat(complete, editorName(), pluginUserAgent())
@@ -294,7 +294,10 @@ class TokitokiService : Disposable {
     fun setProjectName(project: Project) {
         val folder = ProjectNames.folder(project) ?: return
         ApplicationManager.getApplication().executeOnPooledThread {
-            val current = ProjectNames.of(project) ?: project.name
+            // The box edits the file's first line, so a pinned line — a
+            // {project} template included — is what it shows; unpinned, the
+            // name the CLI files this project under.
+            val current = ProjectFile.readProjectName(folder).ifEmpty { ProjectNames.of(project) ?: project.name }
             ApplicationManager.getApplication().invokeLater {
                 val name = Messages.showInputDialog(
                     project,
