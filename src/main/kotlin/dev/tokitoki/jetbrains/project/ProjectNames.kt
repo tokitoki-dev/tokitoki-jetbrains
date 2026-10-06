@@ -14,14 +14,9 @@ import java.nio.file.Path
 object ProjectNames {
     fun folder(project: Project?): Path? = project?.basePath?.let { Path.of(it) }
 
-    /** The IDE's own name for the project, sent on heartbeats for the CLI to
-     * fall back on. The CLI reads `.tokitoki` itself; repeating it here would
-     * only be a second copy of its rules. */
-    fun hint(project: Project?): String? = project?.takeIf { !it.isDisposed }?.name
-
     fun of(project: Project?): String? {
         if (project == null || project.isDisposed) return null
         val folder = folder(project) ?: return project.name
-        return TokitokiCli().project(folder.toString(), project.name).project
+        return TokitokiCli().project(folder.toString()).project
     }
 }

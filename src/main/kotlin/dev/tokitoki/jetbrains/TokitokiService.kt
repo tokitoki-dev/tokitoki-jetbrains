@@ -139,7 +139,6 @@ class TokitokiService : Disposable {
         heartbeats.execute {
             try {
                 val complete = heartbeat.copy(
-                    alternateProject = ProjectNames.hint(project),
                     projectFolder = ProjectNames.folder(project)?.toString(),
                 )
                 TokitokiCli().heartbeat(complete, editorName(), pluginUserAgent())
