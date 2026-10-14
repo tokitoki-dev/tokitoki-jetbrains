@@ -1,5 +1,21 @@
 # Changelog
 
+## 0.0.4
+
+- Bundled CLI v0.1.11: Claude Code and Codex **tool calls** — built-in
+  tools, MCP tools and the programs a shell command runs — and **prompts**
+  are recorded, so the dashboard shows which tools agents use and how long
+  each question took. Tool arguments and prompt text never leave your
+  machine. The first sync after updating reads existing transcripts once
+  more to pick up their history.
+- **Projects are named after their repository.** Heartbeats no longer send
+  the IDE project's name: the CLI names the project from the file and the
+  project root, the same way it names an AI agent's work, so editor time and
+  AI usage land on one project, and a worktree or a subfolder counts toward
+  its repository. A name pinned in `.tokitoki` still wins; the status bar,
+  the tool window and **Set Project Name** all show the name in effect. The
+  branch is read from the checkout itself.
+
 ## 0.0.3
 
 - Compatible with IntelliJ IDEA 2026.2 and 2026.3 without warnings: the

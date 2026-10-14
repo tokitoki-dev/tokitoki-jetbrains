@@ -60,6 +60,10 @@ class TodayProject(
     val text: String = "",
 )
 
+/** The JSON of `tokitoki project` (tokitoki-cli internal/project): the
+ * project a heartbeat from this folder is filed under. */
+class ProjectIdentity(val project: String = "", val project_path: String = "")
+
 /** The JSON of `tokitoki stats` (tokitoki-cli internal/usagestats): local
  * aggregates, no key and no network, so a fresh install has numbers. */
 class StatsReport(
@@ -187,7 +191,6 @@ class TokitokiCli {
             "--plugin", plugin,
             "--category", heartbeat.category,
         )
-        heartbeat.project?.let { args += listOf("--project", it) }
         heartbeat.projectFolder?.let { args += listOf("--project-folder", it) }
         heartbeat.language?.let { args += listOf("--language", it) }
         if (heartbeat.isWrite) args += "--write"
@@ -215,6 +218,16 @@ class TokitokiCli {
         val args = mutableListOf("today")
         if (!project.isNullOrBlank()) args += listOf("--project", project)
         return parse(run(args).stdout, TodayReport::class.java, "today")
+    }
+
+    /** The project the CLI files this folder's heartbeats under: a pinned
+     * `.tokitoki` name, the repository around the folder, or the folder
+     * itself. */
+    fun project(folder: String): ProjectIdentity {
+        val stdout = run(listOf("project", "--project-folder", folder)).stdout
+        val identity = parse(stdout, ProjectIdentity::class.java, "project")
+        check(identity.project.isNotBlank()) { "Unreadable response from 'tokitoki project': ${stdout.trim().ifEmpty { "(empty)" }}" }
+        return identity
     }
 
     /** Local usage aggregates; `project` nests a report narrowed to it. */

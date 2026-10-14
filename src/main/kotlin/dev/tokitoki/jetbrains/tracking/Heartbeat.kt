@@ -4,7 +4,9 @@ package dev.tokitoki.jetbrains.tracking
 data class Heartbeat(
     val entity: String,
     val timeSeconds: Double,
-    val project: String?,
+    /** The IDE project's root. The CLI names the project from it and the
+     * entity; `--project` would override that, and is left to plugin builds
+     * released before it detected repositories. */
     val projectFolder: String?,
     /** The shared language name, when the IDE's file type translates to one. */
     val language: String?,

@@ -110,13 +110,15 @@ class TokitokiPanel(private val project: Project) : StatusListener, Disposable {
         if (!refreshing.compareAndSet(false, true)) return
         ApplicationManager.getApplication().executeOnPooledThread {
             val service = TokitokiService.getInstance()
-            val windowProject = ProjectNames.of(project)
-            val active = selected ?: windowProject
-            val projectName = active?.takeIf { it != ALL }
-            // One CLI call returns the global report with the project's
-            // sub-report nested inside it: the selector lists from the global
-            // one while every section reads the scoped one.
+            // One CLI call names this window's project, another returns the
+            // global report with that project's sub-report nested inside it:
+            // the selector lists from the global one while every section reads
+            // the scoped one. Either failing leaves nothing to show.
+            var windowProject: String? = null
+            var projectName: String? = null
             val report = try {
+                windowProject = ProjectNames.of(project)
+                projectName = (selected ?: windowProject)?.takeIf { it != ALL }
                 TokitokiCli().stats(STATS_DAYS, projectName)
             } catch (error: Exception) {
                 null
